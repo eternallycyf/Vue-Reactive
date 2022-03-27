@@ -1,28 +1,40 @@
-import { reactive } from './vue3/reactivity/index.js'
+import { reactive, useDom } from './vue3/index.js'
 
-const state = reactive({
-  name: 'zs',
-  age: 12,
-  info: {
-    title: 'test',
-    students: [
-      {
-        id: 1,
-        name: 'zs'
-      },
-      {
-        id: 2,
-        name: 'l4'
-      }
-    ]
-  },
-  hobby: ['computed', 'movie']
-})
+function App() {
+  var state = reactive({
+    count: 1,
+    name: 'zs'
+  });
 
-state.age = 120
-// 获取不到深层的结构 需要递归处理
-state.info.title
-state.info.students.push({ id: 3, name: 'aaa' })
-state.aaaadsas = 10
+  const add = (num) => {
+    state.count += num;
+  }
 
-console.log(state);
+  const minus = (num) => {
+    state.count -= num;
+  }
+
+  const changeName = (name) => {
+    state.name = name;
+  }
+
+  return {
+    template: `<h1>{{ count }}</h1>
+    <h2>{{ name }}</h2>
+    <button onClick="add(2)">+</button>
+    <button onClick="minus(1)">-</button>
+    <button onClick="changeName('sadas')">changeName</button>
+    `,
+    state,
+    methods: {
+      add,
+      minus,
+      changeName
+    }
+  }
+}
+
+useDom(
+  App(),
+  document.querySelector('#app')
+)
